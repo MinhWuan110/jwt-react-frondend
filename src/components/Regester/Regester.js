@@ -5,13 +5,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import {userapi} from '../../service/api'
 function Regester(props) {
   const [email, setEmail] = useState("");
   const [username, setUserName] = useState("");
   const [phone, setPhone] = useState("");
-  const [passwoord, setPassWoord] = useState("");
-  const [confirmpassWoord, setConfirmPassWoord] = useState("");
+  const [password, setPassWord] = useState("");
+  const [confirmpassWord, setConfirmPassWord] = useState("");
 
   const navigate = useNavigate();
   const handleLogin = () => {
@@ -25,21 +25,30 @@ function Regester(props) {
   }, []);
 
   const isvalidinput = () => {
-    let userdata = [email, username, phone, passwoord, confirmpassWoord];
+    let userdata = [email, username, phone, password, confirmpassWord];
     if (!email) {
       toast.error("you forget insert email !");
+      return;
     }
     if (!username) {
       toast.error("you forget username !");
+      return;
+
     }
     if (!phone) {
       toast.error("you forget insert phone !");
+      return;
+
     }
-    if (!passwoord) {
+    if (!password) {
       toast.error("you forget insert password ! ");
+      return;
+
     }
-    if (passwoord != confirmpassWoord) {
-      toast.error("confirm passwoord wrong ! ");
+    if (password != confirmpassWord) {
+      toast.error("confirm password wrong ! ");
+      return;
+
     }
     var re = /\S+@\S+\.\S+/;
     if( ! re.test(email)){
@@ -48,12 +57,18 @@ function Regester(props) {
     return true;
   };
   // xur lý validex
-  const handleRegester = () => {
+  const handleRegester = async () => {
     let check = isvalidinput();
     if(check === true ){
-     axios.post("http://localhost:8080/api/v1/regester", {
-      email, username, phone, passwoord
-    })
+     let userResult = await userapi( email, username, phone, password)
+     let userData =userResult.data
+     if(+userData.EC === 0 ){
+      toast.success(userData.EM)
+      navigate("/Login");
+     }
+     else{
+      toast.error(userData.EM)
+     }
     }
   };
 
@@ -104,24 +119,24 @@ function Regester(props) {
             ></input>
           </div>
           <div>
-            <label>passwoord</label>
+            <label>password</label>
             <input
-              type="Passwoord"
+              type="Password"
               className="form-control mt-3"
               placeholder="Password "
-              value={passwoord}
-              onChange={(passwoord) => setPassWoord(passwoord.target.value)}
+              value={password}
+              onChange={(password) => setPassWord(password.target.value)}
             ></input>
           </div>
           <div>
-            <label>Re Enter passwoord</label>
+            <label>Re Enter password</label>
             <input
-              type="Passwoord"
+              type="Password"
               className="form-control mt-3"
               placeholder="Re enter password "
-              value={confirmpassWoord}
-              onChange={(confirmpassWoord) =>
-                setConfirmPassWoord(confirmpassWoord.target.value)
+              value={confirmpassWord}
+              onChange={(confirmpassWord) =>
+                setConfirmPassWord(confirmpassWord.target.value)
               }
             ></input>
           </div>
@@ -138,7 +153,7 @@ function Regester(props) {
               className="btn btn-success mb-3 "
               onClick={() => handleLogin()}
             >
-              Already've an account logn in
+              Already've an account logn in 
             </button>
           </div>
         </div>
