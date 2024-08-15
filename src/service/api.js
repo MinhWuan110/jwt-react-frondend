@@ -6,4 +6,10 @@ const userapi = ( email, username, phone, password) => {
     })
 }
 
-export { userapi }
+const loginapi = (valueLogin, password) =>{
+   return axios.post("http://localhost:8080/api/v1/login", {
+      valueLogin, password
+    })
+}
+
+export { userapi , loginapi}

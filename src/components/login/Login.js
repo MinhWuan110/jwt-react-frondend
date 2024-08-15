@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import {loginapi} from "../../service/api"
 
 function Login(props) {
 
   const defaultcolor = {
-    checkColorValueLogin: false ,
+    checkColorValueLogin: true ,
     checkColorPassword : true 
   }
 
-  const [isvalidValueLogin, setisvalidValueLogin] = useState("")
-  const [isvalidPassword, setisvalidPassword] = useState("")
+  const [validValueLogin, setisvalidValueLogin] = useState("")
+  const [validPassword, setisvalidPassword] = useState("")
   const [isCheckColorInput, setCheckColorInput] = useState(defaultcolor)
 
 
@@ -21,21 +21,24 @@ function Login(props) {
     navigate("/Regester")
   }
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setCheckColorInput(defaultcolor)
-    if(!isvalidValueLogin)
+    if(!validValueLogin)
     {
-      // setCheckColorInput({...defaultcolor,checkColorValueLogin:false})
+      setCheckColorInput({...defaultcolor,checkColorValueLogin:false})
       toast.error("Foget insert email or phone number ")
       return;
     }
-    if(!isvalidPassword)
+    if(!validPassword)
     {
       toast.error("Foget insert Password ")
-      // setCheckColorInput({...defaultcolor,checkColorPassword:false})
+      setCheckColorInput({...defaultcolor,checkColorPassword:false})
       return;
     }
+
+    await loginapi(validValueLogin,validPassword)
     navigate("/Home")
+
   }
 
   return (
@@ -58,16 +61,16 @@ function Login(props) {
           <h2 className="text-center"> Sign in </h2>{" "}
           <input
             type="text"
-            className={isCheckColorInput.checkColorValueLogin ? "form-control mt-3" : " is-invalid form-control mt-3" } 
+            className={isCheckColorInput.checkColorValueLogin ? "form-control mt-3" : " is-invalid form-control mt-3"} 
             placeholder="sign in by number phone or email "
-            value={isvalidValueLogin}
+            value={validValueLogin}
             onChange={(event) => setisvalidValueLogin(event.target.value)}
           ></input>
           <input
             type="password"
-            className={isCheckColorInput.checkColorPassword ? "form-control mt-3" : " is-invalid form-control mt-3" } 
+            className={isCheckColorInput.checkColorPassword ? "form-control mt-3" : "is-invalid form-control mt-3" } 
             placeholder="import password "
-            value={isvalidPassword}
+            value={validPassword}
             onChange={(event) => setisvalidPassword(event.target.value)}
           ></input>
           <a className="inline text-center mt-3" > Foget your passwoord </a> <hr />
