@@ -3,25 +3,48 @@ import Home from "./components/Home";
 // import Nav from  './components/Navigation/Nav'
 import Login from "./components/login/Login";
 import Regester from "./components/Regester/Regester";
+import User from "./components/Users/user";
+import News from "./components/News/News";
+import Nav from "./components/Navigation/Nav";
 import { ToastContainer } from "react-toastify";
+import _ from "lodash"
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   // Link
 } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function App() {
+
+  // const [account, setAccount] = useState({});
+
+  // useEffect(()=>{
+  //   let session = sessionStorage.getItem('account');
+  //   if(session){
+  //     setAccount(JSON.parse(session));
+  //   }
+  // },[])
+  
+
+
   return (
     <>
       <Router>
+                  {/* <div className="app-container">
+            {
+              account && _.isEmpty(account) && account.isAuthenticated && <Nav/>
+            }
+          </div> */}
         <Routes>
           <Route path="/Login" element={<Login />} />
-          <Route path="/Home" element={<Home />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/Regester" element={<Regester />} />
-          <Route path="/News" />
-          <Route path="/Contact" />
-          <Route path="/About" />
+          <Route path="/news" element={<News />} />
+          <Route path="/contact" />
+          <Route path="/about" />
         </Routes>
       </Router>
               <ToastContainer

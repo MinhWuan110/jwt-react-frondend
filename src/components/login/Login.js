@@ -34,12 +34,29 @@ function Login(props) {
 
     let login = await loginapi(validValueLogin, validPassword);
     if (login && login.data && +login.data.EC === 0) {
-      navigate("/Home");
+
+
+      let data = {
+        isAuthenticated : true,
+        token: 'fake token'
+      }
+      sessionStorage.setItem('account', JSON.stringify(data));
+      navigate("/User");
     }
+
+
     if (login && login.data && +login.data.EC !== 0) {
       toast.error(login.data.EM);
     }
   };
+
+  const handleOnKeyPress=(event)=>{
+    if( event.key === "Enter")
+    {
+      alert("da bam vao enter")
+      handleLogin()
+    }
+  } 
 
   return (
     <div className="container">
@@ -78,6 +95,7 @@ function Login(props) {
             placeholder="import password "
             value={validPassword}
             onChange={(event) => setisvalidPassword(event.target.value)}
+            onKeyPress={(event)=> handleOnKeyPress(event)}
           ></input>
           <a className="inline text-center mt-3"> Foget your passwoord </a>{" "}
           <hr />
