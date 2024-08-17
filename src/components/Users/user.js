@@ -1,19 +1,12 @@
 import React from 'react'
 import MainLayout from '../Layouts/MainLayout'
-import { useNavigate } from "react-router-dom";
-import {useEffect} from "react"
+import useAuthCheck from '../useAuthCheck'
 
 function User() {
-  
-  const navigate = useNavigate();
 
-    // kiểm tra người dùng nào đã đăng nhập rồi nêú chưa đăng nhập thì đá ra trang login 
-    useEffect(()=>{
-    let session = sessionStorage.getItem('account');
-    if(!session){
-       navigate("/login");
-    }
-  },[])
+  // gọi hàm kiểm tra phiên đăng nhập 
+  useAuthCheck()
+  
   return (
      <MainLayout>
       <h1> đây là trang user</h1>

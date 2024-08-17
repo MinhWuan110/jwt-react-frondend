@@ -7,9 +7,9 @@ function Nav(props) {
     return (
         <div>
             <div className="topnav">
-                <NavLink exact to="/home" >Home</NavLink>
+                <NavLink exact to="/" >Home</NavLink>
                 <NavLink  exact to ="/news">News</NavLink>
-                <NavLink  exact to ="/contact">Contact</NavLink>
+                <NavLink  exact to ="/user">User</NavLink>
                 <NavLink  exact to ="/about">About</NavLink>
             </div>
         </div>

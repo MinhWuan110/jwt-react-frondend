@@ -1,20 +1,16 @@
 import "./App.css";
 import Home from "./components/Home";
-// import Nav from  './components/Navigation/Nav'
 import Login from "./components/login/Login";
 import Regester from "./components/Regester/Regester";
 import User from "./components/Users/user";
 import News from "./components/News/News";
-import Nav from "./components/Navigation/Nav";
 import { ToastContainer } from "react-toastify";
-import _ from "lodash"
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   // Link
 } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 function App() {
 
@@ -40,7 +36,7 @@ function App() {
         <Routes>
           <Route path="/Login" element={<Login />} />
           <Route path="/user" element={<User />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/Regester" element={<Regester />} />
           <Route path="/news" element={<News />} />
           <Route path="/contact" />
