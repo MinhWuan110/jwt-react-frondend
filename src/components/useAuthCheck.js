@@ -9,7 +9,7 @@ function useAuthCheck() {
     if (!session) {
       navigate("/login");
     }
-  }, []);
+  }, [navigate]);
 }
 
 export default useAuthCheck;

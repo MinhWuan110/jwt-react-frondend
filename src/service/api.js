@@ -12,4 +12,8 @@ const loginapi = (valueLogin, password) =>{
     })
 }
 
-export { userapi , loginapi}
+const fetchUsersapi = (page , limit ) => {
+  return axios.get(`http://localhost:8080/api/v1/user/read?page=${page}&limit=${limit}`)
+}
+
+export { userapi , loginapi, fetchUsersapi}
