@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import MainLayout from "../Layouts/MainLayout";
 import useAuthCheck from "../useAuthCheck";
 import ReactPaginate from "react-paginate";
-import { fetchUsersapi } from "../../service/api";
+import { fetchUsersapi, deleteUser } from "../../service/api";
+import { toast } from "react-toastify";
 
 function User() {
   const [listUsers, setListUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentLimit, setCurrentLimit] = useState(3);
+  const [currentLimit, setCurrentLimit] = useState(2);
   const [totalPage, setTotalPage] = useState(0);
   // gọi hàm kiểm tra phiên đăng nhập
   useAuthCheck();
@@ -15,24 +16,39 @@ function User() {
     const fetchUser = async () => {
     let users = await fetchUsersapi(currentPage, currentLimit);
     console.log(users)
-    // if (users && users.data && users.data.EC === 0) {
-      // console.log(users.data.DT)
+    if (users && users.data && users.data.EC === 0) {
+      console.log(users.data.DT)
       setTotalPage(users.data.DT.totalPage);
       setListUsers(users.data.DT.users);
-    // }
-      console.log(users.data.DT);
+    }
+      // console.log(users.data.DT);
     
   };
 
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [currentPage]);
 
 
-  const handlePageClick = (event) => {
-    alert(event.selected+1);
+  const handlePageClick =async (event) => {
+    console.log(">> check data click: ", event)
+    setCurrentPage(event.selected+1)
+    await fetchUser();
+
+
   };
+
+  const handleDelete = async (user) => {
+     let respone = await deleteUser(user)
+     if(respone && respone.data.EC === 0 ){
+      toast.success("Detele User Success")
+     }
+     else{
+      toast.error("Delete wrong ")
+     }
+     fetchUser()
+  }
 
   return (
     <MainLayout>
@@ -68,7 +84,7 @@ function User() {
                       <td>{item.Group ? item.Group.name : "N/A"}</td>
                       <td>
                         <button className="btn btn-warning ">Edit</button>
-                        <button className="btn btn-danger ms-1">Delete</button>
+                        <button className="btn btn-danger ms-1" onClick= {() => handleDelete(item)}>Delete</button>
                       </td>
                     </tr>
                   );
