@@ -4,18 +4,21 @@ import useAuthCheck from "../useAuthCheck";
 import ReactPaginate from "react-paginate";
 import { fetchUsersapi, deleteUser } from "../../service/api";
 import { toast } from "react-toastify";
+import ModalDelete from "../ModalDelete/ModalDelete"
 
 function User() {
   const [listUsers, setListUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentLimit, setCurrentLimit] = useState(2);
   const [totalPage, setTotalPage] = useState(0);
+  const [isShowModalDelete, setShowModalDelete] = useState(false)
+  const [dataModal, setDataModal] = useState({})
   // gọi hàm kiểm tra phiên đăng nhập
   useAuthCheck();
 
     const fetchUser = async () => {
     let users = await fetchUsersapi(currentPage, currentLimit);
-    console.log(users)
+    // console.log(users)
     if (users && users.data && users.data.EC === 0) {
       console.log(users.data.DT)
       setTotalPage(users.data.DT.totalPage);
@@ -24,6 +27,7 @@ function User() {
       // console.log(users.data.DT);
     
   };
+
 
 
   useEffect(() => {
@@ -40,15 +44,37 @@ function User() {
   };
 
   const handleDelete = async (user) => {
-     let respone = await deleteUser(user)
+    setShowModalDelete(true)
+    setDataModal(user)
+    //  let respone = await deleteUser(user)
+    //  if(respone && respone.data.EC === 0 ){
+    //   toast.success("Detele User Success")
+    //  }
+    //  else{
+    //   toast.error("Delete wrong ")
+    //  }
+    //  fetchUser()
+    
+  }
+
+  const handleClose = () => {
+    setShowModalDelete(false)
+    setDataModal({})
+  }
+
+  const handleConfirmDelete = async () => {
+     let respone = await deleteUser(dataModal)
      if(respone && respone.data.EC === 0 ){
       toast.success("Detele User Success")
+      setShowModalDelete(false)
      }
      else{
       toast.error("Delete wrong ")
      }
      fetchUser()
   }
+
+  
 
   return (
     <MainLayout>
@@ -122,6 +148,12 @@ function User() {
           </div>
         )}
       </div>
+      <ModalDelete
+      show = {isShowModalDelete}
+      handleClose = {handleClose}
+      handleConfirmDelete = {handleConfirmDelete}
+      email = {dataModal.email}
+      />
     </MainLayout>
   );
 }
