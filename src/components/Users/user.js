@@ -4,7 +4,8 @@ import useAuthCheck from "../useAuthCheck";
 import ReactPaginate from "react-paginate";
 import { fetchUsersapi, deleteUser } from "../../service/api";
 import { toast } from "react-toastify";
-import ModalDelete from "../ModalDelete/ModalDelete"
+import ModalDelete from "../ManagementModal/ModalDelete"
+import ModalUser from "../ManagementModal/ModalUser";
 
 function User() {
   const [listUsers, setListUsers] = useState([]);
@@ -12,7 +13,9 @@ function User() {
   const [currentLimit, setCurrentLimit] = useState(2);
   const [totalPage, setTotalPage] = useState(0);
   const [isShowModalDelete, setShowModalDelete] = useState(false)
+  const [isShowModalUser, setShowModalUser] = useState(false)
   const [dataModal, setDataModal] = useState({})
+
   // gọi hàm kiểm tra phiên đăng nhập
   useAuthCheck();
 
@@ -27,7 +30,6 @@ function User() {
       // console.log(users.data.DT);
     
   };
-
 
 
   useEffect(() => {
@@ -74,6 +76,11 @@ function User() {
      fetchUser()
   }
 
+
+  const handleCreateUser = () =>{
+    setShowModalUser(true)
+  }
+
   
 
   return (
@@ -85,7 +92,7 @@ function User() {
           </div>
           <div>
             <button className="btn btn-success">Refresh</button>
-            <button className="btn btn-primary">Create a new user</button>
+            <button className="btn btn-primary"  onClick={()=> handleCreateUser()}>Create a new user</button>
           </div>
         </div>
         <div className="users-body">
@@ -153,6 +160,9 @@ function User() {
       handleClose = {handleClose}
       handleConfirmDelete = {handleConfirmDelete}
       email = {dataModal.email}
+      />
+      <ModalUser
+      show = {isShowModalUser}
       />
     </MainLayout>
   );
