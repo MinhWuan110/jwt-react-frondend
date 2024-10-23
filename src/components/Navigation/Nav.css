@@ -1,7 +1,11 @@
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
+  
+  
 }
+
+
 
 .topnav {
   overflow: hidden;
@@ -17,13 +21,9 @@ body {
   }
 
   a:hover {
-    background-color: #ddd;
+    background-color: blue;
     color: black;
   }
 
-  a.active {
-    background-color: #04aa6d;
-    color: white;
-  }
-}
 
+}

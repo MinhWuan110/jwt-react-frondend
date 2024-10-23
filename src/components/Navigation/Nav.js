@@ -1,19 +1,29 @@
-import React from 'react';
-import './Nav.css'
-import {  NavLink } from 'react-router-dom';
+import React from "react";
+import Nav from "react-bootstrap/Nav";
+import "./Nav.css"
+const Navigation = () => {
+  return (
+    <>
+      <Nav className="justify-content-center topnav" >
+        <Nav.Item>
+          <img
+            className="img-thumbnail mx-auto d-block mb-2"
+            src={`${process.env.PUBLIC_URL}/assets/images/logo.png`}
+            alt="logo"
+          />
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link href="/">Home</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link href="/news">News </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link href="/user">User </Nav.Link>
+        </Nav.Item>
+      </Nav>
+    </>
+  );
+};
 
-
-function Nav(props) {
-    return (
-        <div>
-            <div className="topnav">
-                <NavLink exact to="/" >Home</NavLink>
-                <NavLink  exact to ="/news">News</NavLink>
-                <NavLink  exact to ="/user">User</NavLink>
-                <NavLink  exact to ="/about">About</NavLink>
-            </div>
-        </div>
-    );
-}
-
-export default Nav;
+export default Navigation;

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {userapi} from '../../service/api'
+
 function Regester(props) {
   const [email, setEmail] = useState("");
   const [username, setUserName] = useState("");

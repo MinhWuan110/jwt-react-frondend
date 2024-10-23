@@ -1,0 +1,62 @@
+footer {
+  background-color: #333; /* Màu nền */
+  color: white; /* Màu chữ */
+  padding: 30px 0; /* Khoảng cách trên và dưới */
+}
+
+footer .container {
+  max-width: 1200px; /* Giới hạn chiều rộng */
+  margin: 0 auto; /* Căn giữa */
+}
+
+footer h4 {
+  margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+  font-size: 18px; /* Kích thước chữ tiêu đề */
+}
+
+footer ul {
+  list-style-type: none; /* Bỏ dấu đầu dòng */
+  padding: 0; /* Bỏ padding */
+}
+
+footer ul li {
+  margin-bottom: 10px; /* Khoảng cách giữa các mục */
+}
+
+footer a {
+  color: white; /* Màu chữ cho liên kết */
+  text-decoration: none; /* Bỏ gạch chân */
+}
+
+footer a:hover {
+  text-decoration: underline; /* Gạch chân khi hover */
+}
+
+footer .under-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.2); /* Đường viền trên */
+  padding-top: 20px; /* Khoảng cách trên */
+  text-align: center; /* Căn giữa nội dung */
+}
+
+footer .under-footer p {
+  margin: 0; /* Bỏ margin */
+}
+
+footer .under-footer ul {
+  display: flex; /* Sử dụng flexbox cho danh sách biểu tượng xã hội */
+  justify-content: center; /* Căn giữa */
+  padding: 0; /* Bỏ padding */
+}
+
+footer .under-footer ul li {
+  margin: 0 10px; /* Khoảng cách giữa các biểu tượng */
+}
+
+footer .under-footer i {
+  font-size: 20px; /* Kích thước biểu tượng */
+  color: white; /* Màu biểu tượng */
+}
+
+footer .under-footer i:hover {
+  color: #ff4081; /* Màu khi hover */
+}

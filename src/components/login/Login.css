@@ -1,36 +1,45 @@
-.red {
-  border: 1px solid red;
+/* ---------- SIGN IN ---------- */
+.sign-in__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
 }
 
-.green {
-  border: 1px solid green;
+.sign-in__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
-.yellow {
-  border: 1px solid yellow;
+.sign-in__wrapper form {
+  width: 24rem;
+  max-width: 90%;
+  z-index: 1;
+  animation: showSignInForm 1s;
 }
 
-.content-right {
-  /* border: 1px solid grey; */
-  border-radius: 15px;
-    .inline{
-    text-decoration: none;
-    &:hover{
-        text-decoration: underline;
-    }
-    }
+.sign-in__wrapper form img {
+  width: 4rem;
 }
 
-.content-left {
-  /* border: 1px solid grey; */
-  border-radius: 15px;
-
-}
-  
-
-
-
-
-.mt-3 {
-    margin-top: 50px ;
+@keyframes showSignInForm {
+  0%,
+  30% {
+    transform: translate(0, -150%);
   }
+  70%,
+  90% {
+    transform: translate(0, 1rem);
+  }
+  80%,
+  100% {
+    transform: translate(0, 0);
+  }
+}

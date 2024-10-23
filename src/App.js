@@ -1,5 +1,5 @@
 import "./App.css";
-import Home from "./components/Home";
+import Home from "./components/Home/Home";
 import Login from "./components/login/Login";
 import Regester from "./components/Regester/Regester";
 import User from "./components/Users/user";
