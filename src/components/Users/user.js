@@ -4,7 +4,7 @@ import useAuthCheck from "../useAuthCheck";
 import ReactPaginate from "react-paginate";
 import { fetchUsersapi, deleteUser } from "../../service/api";
 import { toast } from "react-toastify";
-import ModalDelete from "../ManagementModal/ModalDelete"
+import ModalDelete from "../ManagementModal/ModalDelete";
 import ModalUser from "../ManagementModal/ModalUser";
 
 function User() {
@@ -12,87 +12,70 @@ function User() {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentLimit, setCurrentLimit] = useState(2);
   const [totalPage, setTotalPage] = useState(0);
-  const [isShowModalDelete, setShowModalDelete] = useState(false)
-  const [isShowModalUser, setShowModalUser] = useState(false)
-  const [dataModal, setDataModal] = useState({})
+  const [isShowModalDelete, setShowModalDelete] = useState(false);
+  const [isShowModalUser, setShowModalUser] = useState(false);
+  const [dataModal, setDataModal] = useState({});
 
-  // gọi hàm kiểm tra phiên đăng nhập
+  // Kiểm tra phiên đăng nhập
   useAuthCheck();
 
-    const fetchUser = async () => {
+  const fetchUser = async () => {
     let users = await fetchUsersapi(currentPage, currentLimit);
-    // console.log(users)
     if (users && users.data && users.data.EC === 0) {
-      console.log(users.data.DT)
       setTotalPage(users.data.DT.totalPage);
       setListUsers(users.data.DT.users);
+    } else {
+      toast.error("Failed to fetch users.");
     }
-      // console.log(users.data.DT);
-    
   };
-
 
   useEffect(() => {
     fetchUser();
   }, [currentPage]);
 
-
-  const handlePageClick =async (event) => {
-    console.log(">> check data click: ", event)
-    setCurrentPage(event.selected+1)
-    await fetchUser();
-
-
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected + 1);
   };
 
-  const handleDelete = async (user) => {
-    setShowModalDelete(true)
-    setDataModal(user)
-    //  let respone = await deleteUser(user)
-    //  if(respone && respone.data.EC === 0 ){
-    //   toast.success("Detele User Success")
-    //  }
-    //  else{
-    //   toast.error("Delete wrong ")
-    //  }
-    //  fetchUser()
-    
-  }
+  const handleDelete = (user) => {
+    setShowModalDelete(true);
+    setDataModal(user);
+  };
 
-  const handleClose = () => {
-    setShowModalDelete(false)
-    setDataModal({})
-  }
+  const handleCloseDelete = () => {
+    setShowModalDelete(false);
+    setDataModal({});
+  };
 
   const handleConfirmDelete = async () => {
-     let respone = await deleteUser(dataModal)
-     if(respone && respone.data.EC === 0 ){
-      toast.success("Detele User Success")
-      setShowModalDelete(false)
-     }
-     else{
-      toast.error("Delete wrong ")
-     }
-     fetchUser()
-  }
+    let response = await deleteUser(dataModal.id);
+    if (response && response.data.EC === 0) {
+      toast.success("Delete User Success");
+      setShowModalDelete(false);
+      fetchUser();
+    } else {
+      toast.error("Delete failed");
+    }
+  };
 
+  const handleCreateUser = () => {
+    setShowModalUser(true);
+  };
 
-  const handleCreateUser = () =>{
-    setShowModalUser(true)
-  }
-
-  
+  const handleCloseUserModal = () => {
+    setShowModalUser(false);
+  };
 
   return (
     <MainLayout>
       <div className="user-management container">
         <div className="users-header">
           <div className="label">
-            <h1>Đây là trang user</h1>
+            <h1>User Management</h1>
           </div>
           <div>
-            <button className="btn btn-success">Refresh</button>
-            <button className="btn btn-primary"  onClick={()=> handleCreateUser()}>Create a new user</button>
+            <button className="btn btn-success" onClick={fetchUser}>Refresh</button>
+            <button className="btn btn-primary" onClick={handleCreateUser}>Create a new user</button>
           </div>
         </div>
         <div className="users-body">
@@ -107,31 +90,29 @@ function User() {
               </tr>
             </thead>
             <tbody>
-              {listUsers && listUsers.length > 0 ? (
-                listUsers.map((item, index) => {
-                  return (
-                    <tr key={`row-${index}`}>
-                      <td>{index + 1}</td>
-                      <td>{item.id}</td>
-                      <td>{item.email}</td>
-                      <td>{item.Group ? item.Group.name : "N/A"}</td>
-                      <td>
-                        <button className="btn btn-warning ">Edit</button>
-                        <button className="btn btn-danger ms-1" onClick= {() => handleDelete(item)}>Delete</button>
-                      </td>
-                    </tr>
-                  );
-                })
+              {listUsers.length > 0 ? (
+                listUsers.map((item, index) => (
+                  <tr key={`row-${index}`}>
+                    <td>{index + 1}</td>
+                    <td>{item.id}</td>
+                    <td>{item.email}</td>
+                    <td>{item.Group ? item.Group.name : "N/A"}</td>
+                    <td>
+                      <button className="btn btn-warning">Edit</button>
+                      <button className="btn btn-danger ms-1" onClick={() => handleDelete(item)}>Delete</button>
+                    </td>
+                  </tr>
+                ))
               ) : (
                 <tr>
-                  <td colSpan="4">Not found users</td>
+                  <td colSpan="5">No users found</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
         {totalPage > 0 && (
-          <div className="users-footer ">
+          <div className="users-footer">
             <ReactPaginate
               nextLabel="next >"
               onPageChange={handlePageClick}
@@ -150,19 +131,20 @@ function User() {
               breakLinkClassName="page-link"
               containerClassName="pagination"
               activeClassName="active"
-              renderOnZeroPageCount={null}
             />
           </div>
         )}
       </div>
       <ModalDelete
-      show = {isShowModalDelete}
-      handleClose = {handleClose}
-      handleConfirmDelete = {handleConfirmDelete}
-      email = {dataModal.email}
+        show={isShowModalDelete}
+        handleClose={handleCloseDelete}
+        handleConfirmDelete={handleConfirmDelete}
+        email={dataModal?.email}
+        userId={dataModal?.id}
       />
       <ModalUser
-      show = {isShowModalUser}
+        show={isShowModalUser}
+        onHide={handleCloseUserModal}
       />
     </MainLayout>
   );
