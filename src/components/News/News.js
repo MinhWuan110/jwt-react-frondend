@@ -7,7 +7,7 @@ function News() {
   useAuthCheck();
   return (
     <MainLayout>
-      <div id="page-wrapper">
+      {/* <div id="page-wrapper">
         &lt; class="container mt-5"&gt;
         <h1>Quản lý Danh mục tin tức </h1>
         @if (session('success'))
@@ -132,7 +132,8 @@ function News() {
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> */}
+      <h1> đây la nôi dung trang news</h1>
     </MainLayout>
   );
 }

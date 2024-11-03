@@ -4,8 +4,9 @@ import useAuthCheck from "../useAuthCheck";
 import ReactPaginate from "react-paginate";
 import { fetchUsersapi, deleteUser } from "../../service/api";
 import { toast } from "react-toastify";
-import ModalDelete from "../ManagementModal/ModalDelete";
-import ModalUser from "../ManagementModal/ModalUser";
+import ModalDelete from "../ManagementUserModal/ModalDelete";
+import ModalUser from "../ManagementUserModal/ModalUser";
+import ModalEditUser from "../ManagementUserModal/ModalEditUser";
 
 function User() {
   const [listUsers, setListUsers] = useState([]);
@@ -14,6 +15,7 @@ function User() {
   const [totalPage, setTotalPage] = useState(0);
   const [isShowModalDelete, setShowModalDelete] = useState(false);
   const [isShowModalUser, setShowModalUser] = useState(false);
+  const [isShowModalEdit, setShowModalEdit] = useState(false);
   const [dataModal, setDataModal] = useState({});
 
   // Kiểm tra phiên đăng nhập
@@ -66,6 +68,15 @@ function User() {
     setShowModalUser(false);
   };
 
+  const handleEditUser = (user) => {
+    setShowModalEdit(true);
+    setDataModal(user);
+  };
+
+  const handlecloseEditUser = () => {
+    setShowModalEdit(false);
+  };
+
   return (
     <MainLayout>
       <div className="user-management container">
@@ -74,8 +85,12 @@ function User() {
             <h1>User Management</h1>
           </div>
           <div>
-            <button className="btn btn-success" onClick={fetchUser}>Refresh</button>
-            <button className="btn btn-primary" onClick={handleCreateUser}>Create a new user</button>
+            <button className="btn btn-success" onClick={fetchUser}>
+              Refresh
+            </button>
+            <button className="btn btn-primary" onClick={handleCreateUser}>
+              Create a new user
+            </button>
           </div>
         </div>
         <div className="users-body">
@@ -85,6 +100,9 @@ function User() {
                 <th scope="col">NO</th>
                 <th scope="col">ID</th>
                 <th scope="col">Email</th>
+                <th scope="col">User Name</th>
+                <th scope="col">Sex</th>
+                <th scope="col">Phone</th>
                 <th scope="col">Group</th>
                 <th scope="col">Action</th>
               </tr>
@@ -96,10 +114,23 @@ function User() {
                     <td>{index + 1}</td>
                     <td>{item.id}</td>
                     <td>{item.email}</td>
-                    <td>{item.Group ? item.Group.name : "N/A"}</td>
+                    <td>{item.username}</td>
+                    <td>{item.sex}</td>
+                    <td>{item.phone}</td>
+                    <td>{item.Groupid ? item.Group.name : "N/A"}</td>
                     <td>
-                      <button className="btn btn-warning">Edit</button>
-                      <button className="btn btn-danger ms-1" onClick={() => handleDelete(item)}>Delete</button>
+                      <button
+                        className="btn btn-warning"
+                        onClick={() => handleEditUser(item)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger ms-1"
+                        onClick={() => handleDelete(item)}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))
@@ -142,9 +173,12 @@ function User() {
         email={dataModal?.email}
         userId={dataModal?.id}
       />
-      <ModalUser
-        show={isShowModalUser}
-        onHide={handleCloseUserModal}
+      <ModalUser show={isShowModalUser} onHide={handleCloseUserModal} />
+      <ModalEditUser
+        show={isShowModalEdit}
+        onHide={handlecloseEditUser}
+        handleClose={handlecloseEditUser}
+        userId={dataModal?.id}
       />
     </MainLayout>
   );

@@ -49,7 +49,8 @@ function ModalUser(props) {
         toast.error(`Input is empty: ${arr[i]}`);
         let _validInputs = _.cloneDeep(defaultValidInput);
         _validInputs[arr[i]] = false;
-        setValidInput(_validInputs);
+       
+       
         check = false;
         break;
       }
