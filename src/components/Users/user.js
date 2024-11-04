@@ -9,6 +9,7 @@ import ModalUser from "../ManagementUserModal/ModalUser";
 import ModalEditUser from "../ManagementUserModal/ModalEditUser";
 
 function User() {
+  
   const [listUsers, setListUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentLimit, setCurrentLimit] = useState(2);

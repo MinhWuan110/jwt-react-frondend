@@ -16,6 +16,7 @@ const loginapi = (valueLogin, password) => {
   });
 };
 
+// phân trang 
 const fetchUsersapi = (page, limit) => {
   return axios.get(`http://localhost:8080/api/v1/user/read?page=${page}&limit=${limit}`)
   // return fetchGetApi(
@@ -23,15 +24,35 @@ const fetchUsersapi = (page, limit) => {
   // );
 };
 
+
+// get lấy danh sách nhóm 
+const fetchGroupapi = () => {
+  return axios.get("http://localhost:8080/api/v1/group/read");
+};
+
+
+// them xoa sua user 
 const deleteUser = (user) => {
-  return axios.delete("http://localhost:8080/api/v1/user/delete", {
+  return axios.delete(`http://localhost:8080/api/v1/user/delete/${user}`, {
     data: { id: user.id },
   });
 };
 
-const fetchGroupapi = () => {
-  return axios.get("http://localhost:8080/api/v1/group/read");
+
+const fechEditUser = (id) => {
+  return axios.get(`http://localhost:8080/api/v1/user/edit/${id}`);
+  
+}
+
+
+const editUser = (id, userData) => {
+  return axios.put(`http://localhost:8080/api/v1/user/edit/${id}`, userData, {
+    headers: {
+      "Content-Type": "application/json", // Thiết lập header cho yêu cầu
+    },
+  });
 };
+
 
 // const fetchGetApi = (url, headers) =>
 //   axios.get(url, {
@@ -44,5 +65,7 @@ export {
   fetchUsersapi,
   deleteUser,
   fetchGroupapi,
+  editUser,
+  fechEditUser,
   // fetchGetApi,
 };

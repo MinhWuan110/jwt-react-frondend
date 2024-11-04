@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import axios from "axios";
-import { fetchGroupapi } from "../../service/api";
+import { fetchGroupapi, editUser ,fechEditUser } from "../../service/api";
 
 const ModalEditUser = (props) => {
   const [userData, setUserData] = useState({
@@ -31,9 +30,7 @@ const ModalEditUser = (props) => {
 
   const fetchUserData = async (id) => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/v1/user/edit/${id}`
-      );
+      const response = await fechEditUser(id)
       setUserData(response.data); // Lấy dữ liệu trực tiếp từ response.data
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -47,15 +44,17 @@ const ModalEditUser = (props) => {
 
   const handleConfirmUser = async () => {
     try {
-      await axios.put(
-        `http://localhost:8080/api/v1/user/edit/${props.userId}`,
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await editUser(props.userId, userData)
+
+      // await axios.put(
+      //   `http://localhost:8080/api/v1/user/edit/${props.userId}`,
+      //   userData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //   }
+      // );
       props.handleClose(); // Đóng modal sau khi cập nhật thành công
       window.location.reload(); // Load lại trang
     } catch (error) {

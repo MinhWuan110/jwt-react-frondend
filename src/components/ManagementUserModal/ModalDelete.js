@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import axios from "axios";
+import {deleteUser} from "../../service/api"
 
 // import { fetchGetApi } from "../../service/api";
 
@@ -9,17 +9,7 @@ function ModalDelete(props) {
   const { userId, onDeleteSuccess, handleClose } = props;
   const handleConfirmDelete = async () => {
     try {
-      const response = await axios(
-        `http://localhost:8080/api/v1/user/delete/${userId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            // Thêm token nếu cần
-            // 'Authorization': `Bearer ${yourToken}`
-          },
-        }
-      );
+      const response = await deleteUser(userId)
 
       // const response = await fetchGetApi(`http://localhost:8080/api/v1/user/delete/${userId}`, {
       //     method: "DELETE",
