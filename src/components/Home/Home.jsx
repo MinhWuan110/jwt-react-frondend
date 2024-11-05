@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MainLayouts from "../Layouts/MainLayout";
 import Products from "../Products/products";
-import axios from "axios";
+import { readProduts } from "../../service/api"
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true); // Trạng thái loading
@@ -9,9 +9,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/api/v1/products"
-        ); // Thay đổi URL nếu cần
+        const response = await readProduts()
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -30,13 +28,7 @@ const Home = () => {
     <MainLayouts>
       <div className="page-heading" id="top">
         <div className="container">
-          <div className="row">
-            <Products products={products} />
-          </div>
-             <div className="row">
-            <Products products={products} />
-          </div>
-             <div className="row">
+          <div>
             <Products products={products} />
           </div>
           {/* <div className="row">

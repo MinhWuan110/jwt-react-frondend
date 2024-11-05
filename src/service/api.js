@@ -53,7 +53,9 @@ const editUser = (id, userData) => {
   });
 };
 
-
+const readProduts = () =>{
+  return axios.get(`http://localhost:8080/api/v1/products`)
+}
 // const fetchGetApi = (url, headers) =>
 //   axios.get(url, {
 //     headers: headers ?? {},
@@ -67,5 +69,6 @@ export {
   fetchGroupapi,
   editUser,
   fechEditUser,
+  readProduts,
   // fetchGetApi,
 };

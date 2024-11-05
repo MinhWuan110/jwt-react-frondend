@@ -1,11 +1,10 @@
 import React from "react";
-// import MainLayout from "../Layouts/MainLayout";
 const Products = ({ products }) => {
   return (
       <div className="row">
         {products.map((product, index) => (
-          <div className="col-sm" key={index}>
-            <div className="card" style={{ marginBottom: "20px" }}>
+          <div className="col-sm-3" key={index}>
+            <div className="card" style={{ marginBottom: "30px" }}>
               <img
                 src={product.Image}
                 className="card-img-top"
